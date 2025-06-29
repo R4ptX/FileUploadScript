@@ -56,22 +56,33 @@ def main():
 
 
     i0 = reqData.find(b"\r\n--"+boundary,ibody-2)
-    
+    istartFile = -1
     while i0 != -1:
-        i1 = reqData.find(b"\r\nContent-Type: image/png", i0+1)
-        if reqData.count(b"\r\n", i0, i1) == 2:
+        l0 = reqData.find(b"\r\n", i0+1)
+        l1 = reqData.find(b"\r\n", l0+1)
+        l2 = reqData.find(b"\r\n", l1+1)
+        print(reqData[l1:l2])
+        if reqData[l1:l2].startswith(b"\r\nContent-Type: "):
+            istartType = l1+16
+            iendType = l2
+
+            _type = reqData[istartType:iendType]
+            if _type != b"image/png": None # implement some check?
+
+            istartFile = reqData.find(b"\r\n\r\n",l2)+4
             break
         i0 = reqData.find(b"\r\n--"+boundary, i0+1)
     
     if i0 == -1:
         print("'\\r\\nContent-Type: image/png' not found in request")
 
-    istartFile =reqData.find(b"\r\n\r\n", i1) + 4
+
+    istartFile = istartFile
     iEndFile = reqData.find(b"\r\n--"+boundary, istartFile)
 
     # oldPngFile = reqData[istartFile:iendFile]
 
-    newReqData = reqData[:istartFile] + pngFileBytes + reqData[iEndFile:]
+    newReqData = reqData[:istartType] + _type + reqData[iendType:istartFile] + pngFileBytes + reqData[iEndFile:]
 
 
 
