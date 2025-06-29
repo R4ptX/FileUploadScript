@@ -8,20 +8,19 @@ import zlib
 
 
 class PngPLTE:
-  def make( payload: str):
+  def make( payload: bytes):
       # Pad payload to make it divisible by 3
       while len(payload) % 3 != 0:
-          payload += ' '
+          payload += b' '
       
-      payload_bytes = payload.encode()
-      if len(payload_bytes) > 256 * 3:
+      if len(payload) > 256 * 3:
           print("FATAL: The payload is too long. Exiting...")
           sys.exit(1)
-      if len(payload_bytes) % 3 != 0:
+      if len(payload) % 3 != 0:
           print("FATAL: The payload isn't divisible by 3. Exiting...")
           sys.exit(1)
       
-      num_colors = len(payload_bytes) // 3
+      num_colors = len(payload) // 3
       width = num_colors
       height = 1
   
@@ -43,7 +42,7 @@ class PngPLTE:
       png_data += png_chunk(b'IHDR', ihdr_data)
   
       # === PLTE chunk ===
-      plte_data = payload_bytes
+      plte_data = payload
       png_data += png_chunk(b'PLTE', plte_data)
   
       # === IDAT chunk ===
