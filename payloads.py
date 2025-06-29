@@ -89,6 +89,6 @@ class FilePayloadReplace:
   jpeg: FilePayloadReplaceFactory = FilePayloadReplaceFactory(pattern=b"""\xFF\xD8\xFF\n__013374901834903810948103__FILE__""",fakeExtention="jpeg")
 
 # https://www.synacktiv.com/publications/persistent-php-payloads-in-pngs-how-to-inject-php-code-in-an-image-and-keep-it-there.html
-import PngPLTE.PngPLTE as PngPLTEPayloadFactory
+from PpnPLTE import PngPLTE as PngPLTEPayloadFactory
 class FilePayloadAdvanced:
   pngPLTE: PngPLTEPayloadFactory
