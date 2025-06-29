@@ -91,4 +91,4 @@ class FilePayloadReplace:
 # https://www.synacktiv.com/publications/persistent-php-payloads-in-pngs-how-to-inject-php-code-in-an-image-and-keep-it-there.html
 from PpnPLTE import PngPLTE as PngPLTEPayloadFactory
 class FilePayloadAdvanced:
-  pngPLTE: PngPLTEPayloadFactory
+  pngPLTE: PngPLTEPayloadFactory 
